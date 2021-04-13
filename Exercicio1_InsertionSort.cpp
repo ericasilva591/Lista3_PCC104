@@ -17,7 +17,7 @@ void InsertionSort(std::vector<T>& v) {
     int n = v.size();
     int j;
     T valor;
-    for (int i = 1; i <= n - 1; i++) {
+    for (int i = 1; i < n; i++) {
         valor = v[i];
         j = i - 1;
         while (j >= 0 && v[j] > valor) {
