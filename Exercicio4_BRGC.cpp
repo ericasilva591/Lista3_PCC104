@@ -5,56 +5,96 @@
 #include <vector>
 
 template <typename T>
-void print_vector(std::vector<T>& v) {//função para imprimir um vetor
-    for (auto i = v.begin(); i != v.end(); i++) {
-        std::cout << *i << " ";
+void print_matrix(std::vector<std::vector<T>>& v) {//função para imprimir um vetor
+    for (const auto& v1 : v) {
+        for (auto x : v1) std::cout << x << " ";
         std::cout << std::endl;
     }
-    
+
 }
 
-std::vector<std::string> BRGC(int n) { // gera 2^n n-bit string, cada uma diferente da anterior, mudando apenas 1 elemento de uma para a outra 
+
+std::vector<std::vector<int>> BRGC(int n) { // gera 2^n n-bit string, cada uma diferente da anterior, mudando apenas 1 elemento de uma para a outra 
+    std::vector<std::vector<int>> L;
     if (n == 1) //caso base
     {
-        return { "0","1" };
-    }
-    
-    //inicia L1 com n-1 elemento chando a função recursiva BRGC
-    std::vector<std::string> L1 = BRGC(n - 1);
-    std::vector<std::string> L2;
-    std::vector<std::string> L3;
-    std::vector<std::string> L;
+        L.push_back({ 0 });
+        L.push_back({ 1 });
 
-    //Copia os dados de L1 par L2 em ordem reversa e adiciona "0" na frente de cada bit string
-    for (int i = L1.size() - 1; i >= 0; i--) {
-        L2.push_back("1" + L1[i]);
     }
+    else {
 
-    //Copia os dados de L1 par L3 e adiciona "1" na frente de cada bit string
-    for (int i = 0; i < L1.size(); i++) {
-        L3.push_back("0" + L1[i]);
+        //inicia L1 com n-1 elemento chando a função recursiva BRGC
+        std::vector<std::vector<int>> L1 = BRGC(n - 1);
+        std::vector<std::vector<int>> L2(L1);
+        std::reverse(L2.begin(), L2.end());
+
+        //Adiciona "0" na frente de cada bit string
+        for (std::vector<int>& s : L1) {
+            s.emplace(s.begin(), 0);
+        }
+
+
+        //Adiciona "1" na frente de cada bit string
+        for (std::vector<int>& s : L2) {
+            s.emplace(s.begin(), 1);
+        }
+
+
+        //concatena L2 e L1 , nesta ordem para formar L
+        L.insert(L.begin(), L1.begin(), L1.end());
+        L.insert(L.end(), L2.begin(), L2.end());
+        
     }
-    
-    //concatena L2 e L3 , nesta ordem para formar L
-    auto it = L.begin();
-    L.insert(it, L3.begin(), L3.end());
-    it = L.end();
-    L.insert(it, L2.begin(), L2.end());
-    
     return L;
 
     //Relação de recorrência:
-    //x(n) = x(n-1) + 2*(n-1)
-    
+    //x(n) = x(n-1) + 2^(n-1) = 2^(n+1) - 3
+}
+
+std::vector<int> gera_set(int n) {
+    std::vector<int> v;
+    for (int i = 1; i <= n; i++) {
+        v.push_back(i);
+    }
+    return v;
+}
+
+void gera_subsets(std::vector<std::vector<int>>& v, std::vector<int>& v_set) {
+    int n = v_set.size();
+
+    std::cout << "Todos os subconjunto diferentes gerados a partir do conjunto {";
+    for (auto x : v_set) std::cout << x << " ";
+    std::cout << "} sao:" << std::endl;
+
+    for (int i = 0; i < v.size(); i ++) {
+        for (int j = 0; j < n; j++) {
+            if (v[i][j])
+            {
+                std::cout << v_set[j] << " ";
+            }
+            else std::cout << "- ";
+        }
+        std::cout << std::endl;
+               
+    }
+
 }
 
 int main()
 {
-    int n = 3;
-    std::vector<std::string> v;
+    int n = 4;
+
+    std::vector<std::vector<int>> v;
+    std::vector<int> v_set;
 
     v = BRGC(n);
-    print_vector(v);
+    print_matrix(v);
+    v_set = gera_set(n);
+    //print_vector(v_set);
+
+    gera_subsets(v, v_set);
+
 
 }
 
