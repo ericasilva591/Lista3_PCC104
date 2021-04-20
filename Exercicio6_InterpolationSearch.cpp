@@ -35,7 +35,7 @@ void interpolation_search(std::vector<T> v, T k) {
     int r = n - 1;
     bool flag = false;
     while ((l <= r) && (k >= v[l]) && (k <= v[r])) {
-        int x = l + ((k - v[l]) * (r - l)) / (v[r] - v[l]);
+        T x = l + ((k - v[l]) * (r - l)) / (v[r] - v[l]);
         
         if (((l == r) && (v[l] == k))) {
             std::cout << "O indice da senha " << k << " eh: " << l << std::endl;
@@ -70,13 +70,10 @@ int main()
     std::vector<int> vetor_in = { 10,7,55,23,24,12,11,8,19,50 };
     int k =10;
 
-    //Exemplo com entrada de string:
-    //std::vector<std::string> vetor_in = { "gadf","eadf","etdf","hfaf","naw","zqdd","raf","fbf","zaf","ado" };
-    //std::string k = "zaf";
-
+    
     //Exemplo com entrada de double:
     //std::vector<float> vetor_in = { 11.4,312.54,34.0,2.3,6.75,89.4,23.5,5.65,65.4,8.43 };
-    //float k = 12;
+    //float k = 11.4;
 
     bubble_sort(vetor_in);
     std::cout << "Arranjo: ";
