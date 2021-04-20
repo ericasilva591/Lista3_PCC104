@@ -12,49 +12,69 @@ void print_vector(std::vector<T>& v) {//função para imprimir um vetor
     std::cout << std::endl;
 }
 
-int fake_coin(std::vector<bool>& v) {
-    if (v.size() == 1) {
-        return v[0];
+template <typename T>
+void fake_coin(std::vector<T> v) {
+    
+    int n = v.size();
+    //std::cout << "n" << n << std::endl;
+    if (n == 1) {
+        std::cout << "A moeda falsa eh a " << v[0] << std::endl;
     }
     else {
-
-        int n = v.size();
-        int soma1 = 0;
-        int soma2 = 0;
+        float soma1 = 0;
+        float soma2 = 0;
         int m = n / 2;
+        //std::cout << "m" << m << std::endl;
         if ((n %= 2) == 0) {//se for par 
-            std::vector<bool> v1, v2;
-            for (auto i = 0; i < m; i++) {
+            std::vector<T> v1, v2;
+            for (int i = 0; i < m; i++) {
                 soma1 += v[i];
                 v1.push_back(v[i]);
             }
+            //std::cout << "Psoma1" << soma1 << std::endl;
             for (int j = m; j < v.size(); j++) {
                 soma2 += v[j];
                 v2.push_back(v[j]);
             }
+            //std::cout << "Psoma2" << soma2 << std::endl;
             if (soma1 < soma2) {
-                fake_coin(v1);
-            }
-            else {
+                //std::cout << "Pv2";
+                //print_vector(v2);
                 fake_coin(v2);
+                
+            }
+            else if (soma1 > soma2) {
+                //std::cout << "Pv1";
+                //print_vector(v1);
+                fake_coin(v1);
             }
 
         }
         else { //se for impar repete uma moeda nos dois subconjuntos
-            std::vector<bool> v1, v2;
-            for (auto i = 0; i <= m; i++) {
+            std::vector<T> v1, v2;
+            for (int i = 0; i <= m; i++) {
                 soma1 += v[i];
                 v1.push_back(v[i]);
             }
+            //std::cout <<"Isoma1" << soma1<<std::endl;
             for (int j = m; j < v.size(); j++) {
                 soma2 += v[j];
                 v2.push_back(v[j]);
             }
+            //std::cout << "Isoma2" << soma2 << std::endl;
             if (soma1 < soma2) {
+                //std::cout << "Iv2";
+                //print_vector(v2);
+                fake_coin(v2);
+            }
+            else if (soma1 > soma2) {
+                //std::cout << "Iv1";
+                //print_vector(v1);
                 fake_coin(v1);
             }
             else {
-                fake_coin(v2);
+                std::cout << "A moeda falsa eh a: " << v[m] << std::endl;
+                
             }
 
         }
@@ -64,19 +84,14 @@ int fake_coin(std::vector<bool>& v) {
 
 int main()
 {
-    
-    std::vector<bool> v = { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1 };
+    std::vector<float> v = { 0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.2,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1};
     //std::cout << v.size();
-    int moeda;
-
+    
     std::cout << "Vetor de moedas: ";
     print_vector(v);
-
-    moeda = fake_coin(v);
-
-    for (int i = 0; i <v.size(); i++) {
-        if (v[i] == moeda) { std::cout << "A moeda esta na posicao: " << i; }
-    }
+       
+    fake_coin(v);
+    
 }
 
 // Executar programa: Ctrl + F5 ou Menu Depurar > Iniciar Sem Depuração
