@@ -9,11 +9,11 @@ void print_vector(std::vector<T>& v) {//função para imprimir um vetor
     for (auto i = v.begin(); i != v.end(); i++) {
         std::cout << *i << " ";
     }
-    std::cout << std::endl;
+    
 }
 
 template <typename T>
-int lomutoPartition(std::vector<T> v) {
+int lomutoPartition(std::vector<T>& v) {
     int l = 0;
     int r = v.size() - 1;
     int p = v[l];
@@ -22,15 +22,18 @@ int lomutoPartition(std::vector<T> v) {
         if (v[i] < p) {
             s = s + 1;
             std::swap(v[s], v[i]);
+           
         }
     }
+    
     std::swap(v[l], v[s]);
+    
     return s;
 
 }
 
 template <typename T>
-int quickselect(std::vector<T> v, int k) {
+int quickselect(std::vector<T>& v, int k) {
     int l = 0;
     int r = v.size() - 1;
     int s = lomutoPartition(v);
@@ -40,22 +43,32 @@ int quickselect(std::vector<T> v, int k) {
     }
     else if (s > l + k - 1) {
         std::vector<int> v1;
-        v1.insert(v1.begin(), v[l], v[s - 1]);
+        v1.insert(v1.begin(), v.begin() + l, v.end() - (s - 1));
         quickselect(v1,k);
     }
     else {
         std::vector<int> v1;
-        v1.insert(v1.begin(), v[s + 1], v[r]);
-        quickselect(v, k - 1 - s);
+        v1.insert(v1.begin(), v.begin() + s + 1, v.end());
+        quickselect(v1, k - 1 - s);
     }
 }
 
 int main()
 {
     //Exemplo com entrada de inteiros:
-    std::vector<int> vetor_in = { 10,7,55,23,24,12,2,8,19,50,44 }; //{7,8,10,11,12,19,23,24,44,50,55}
+    std::vector<int> vetor_in = { 10,13,55,23,24,4,11,8,19,50,44,12,48, 31,20 }; //{4,8,10,11,12,13,19,20,23,24,31,44,48,50,55}
     
-    int k = (vetor_in.size())/ 2;
+    int k;
+    if (vetor_in.size() % 2 == 0) {
+        k = (vetor_in.size()) / 2;
+    }
+    else {
+        k = (vetor_in.size() + 1) / 2;
+    }
+    
+    std::cout << " A mediana do vetor: {";
+    print_vector(vetor_in);
+    std::cout << "} eh :";
     quickselect(vetor_in, k);
 
 
