@@ -2,7 +2,7 @@
 
 Exercicio 1: Implemente o algoritmo Insertion Sort
 
-Exercicio 2: *Implemente o algoritmo de Johnson-Trotter para gerar permutações. (INCOMPLETO)
+Exercicio 2: *Implemente o algoritmo de Johnson-Trotter para gerar permutações.
 
 Exercicio 3: Implemente o método LexicographicPermute apresentado no livro texto
 
