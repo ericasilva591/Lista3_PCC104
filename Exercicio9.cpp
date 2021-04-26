@@ -2,10 +2,53 @@
 //
 
 #include <iostream>
+#include <vector>
+
+class Arvore_Binaria {
+private:
+	struct node{
+		int v;
+		node* esquerda;
+		node* direita;
+	};
+	int n_node;
+	node* root;
+public:
+	Arvore_Binaria(int n_node);
+	void add_node(int node);
+	void busca_node(int node);
+	void apaga_node(int node);
+};
+
+Arvore_Binaria::Arvore_Binaria(int v) {
+	n_node = v;
+}
+
+void Arvore_Binaria::add_node(int node) {
+
+}
+
+void Arvore_Binaria::busca_node(int node) {
+
+}
+
+void Arvore_Binaria::apaga_node(int node) {
+
+}
 
 int main()
 {
-    
+	Arvore_Binaria ab(7);
+	ab.add_node(1);
+	ab.add_node(2);
+	ab.add_node(3);
+	ab.add_node(4);
+	ab.add_node(5);
+	ab.add_node(6);
+	ab.add_node(7);
+
+	ab.apaga_node(6);
+	ab.busca_node(3);
 }
 
 // Executar programa: Ctrl + F5 ou Menu Depurar > Iniciar Sem Depuração
