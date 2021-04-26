@@ -101,7 +101,6 @@ int main()
 {
     int n = 3;
     JohnsonTrotterPermutation(n);
-    return 0;
 
 }
 // Executar programa: Ctrl + F5 ou Menu Depurar > Iniciar Sem Depuração
