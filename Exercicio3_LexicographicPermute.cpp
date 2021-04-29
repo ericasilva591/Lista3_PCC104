@@ -27,7 +27,6 @@ void Lexicographic_permutation(int n) {
         for (int i = 0; i < perm.size() - 1; i++) {
             if (perm[i] < perm[i + 1]) {
                 maior_i = i;
-                //std::cout << "maior_i: " << maior_i << std::endl;
             }
         }
         if (maior_i == -1) {
@@ -39,7 +38,7 @@ void Lexicographic_permutation(int n) {
         for (int j = 0; j < perm.size(); j++) {
             if (perm[maior_i] < perm[j]) {
                 maior_j = j;
-                //std::cout << "maior_j: " << maior_j << std::endl;
+               
             }
         }
         //troca ai como aj 
