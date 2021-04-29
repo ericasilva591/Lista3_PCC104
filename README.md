@@ -16,4 +16,6 @@ Exercicio 7:  Implemente um algoritmo para o problema da moeda falsa (fake coin 
 
 Exercicio 8: Implemente um algoritmo para o cálculo da mediana que não envolva ordenar o conjunto de números.
 
-Exercicio 9:  * Implemente a estrutura de dados binary search tree e os métodos buscar e inserir. (INCOMPLETO)
+Exercicio 9:  * Implemente a estrutura de dados binary search tree e os métodos buscar e inserir - Precisa dos arquivos "Exercicio9ArvoreBinaria.h" e "Exercicio9ArvoreBinaria.cpp"
+        
+            
