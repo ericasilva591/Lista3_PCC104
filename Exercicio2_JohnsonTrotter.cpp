@@ -1,65 +1,108 @@
 // Exercicio2_JohnsonTrotter.cpp : Este arquivo contém a função 'main'. A execução do programa começa e termina ali.
-//
+// Referencia: https://www.geeksforgeeks.org/johnson-trotter-algorithm/
 
 #include <iostream>
 #include <vector>
-#include <list>
+
 
 template <typename T>
-void print_list(std::list<T>& v) {//função para imprimir um vetor
+void print_vector(std::vector<T>& v) {//função para imprimir um vetor
     for (auto i = v.begin(); i != v.end(); i++) {
         std::cout << *i << " ";
     }
     std::cout << std::endl;
 }
 
+int acha_mobile(std::vector<int>& a, std::vector<bool>& dir){
+    int mobile_prev = 0, mobile = 0;
+    for (int i = 0; i < a.size(); i++)
+    {
+        // direção 0 representa direita para a esquerda
+        if (dir[a[i] - 1] == false && i != 0){
+            if (a[i] > a[i - 1] && a[i] > mobile_prev){
+                mobile = a[i];
+                mobile_prev = mobile;
+            }
+        }
 
-int maior(std::vector<int> v) {//função que retorna o maior número de um vetor
-    int maior = 0;
-    for (int i = 0; i < v.size(); i++) {
-        if (v[i] > maior) { maior = v[i]; }
+        // direção 1 representa esquerda para a direita
+        if (dir[a[i] - 1] == true && i != a.size() - 1){
+            if (a[i] > a[i + 1] && a[i] > mobile_prev){
+                mobile = a[i];
+                mobile_prev = mobile;
+            }
+        }
     }
-    return maior;
+
+    if (mobile == 0 && mobile_prev == 0)
+        return 0;
+    else
+        return mobile;
 }
 
-void JohnsonTrotter_permutation(int n) {
-    
-    std::list<int> perm;
-    for (int i = 1; i <= n; i++) {
-        perm.push_back(i);
-    }
-    print_list(perm);
-       
-    bool flag = false;
-    while (!flag) {
-        for (auto i = perm.begin; i != perm.end(); i++) {
-            if ((*i < *i.front()) && (*i < *i.back())) {
-                flag = true;
-            }
-        }
-        if (flag) { break; }
-        else {
-            int maior_k;
-            for (auto j = perm.begin; j != perm.end(); j++) {
-                if ((*j.back() < *j) && (*j.front() < *j)) {
-                    maior_k = *j;
-                    std::cout << maior_k;
-                }
-            }
+void print_perm(std::vector<int>& a, std::vector<bool>& dir){
+    int mobile = acha_mobile(a, dir); // acha o maior elemento móvel
+    int pos;
 
+    for (int i = 0; i < a.size(); i++) { // acha a posição do maior elemento móvel
+        if (a[i] == mobile)
+            pos = i + 1;
+    }
+
+     // troca os elementos de acordo com a direção
+    if (dir[a[pos - 1] - 1] == false)
+        std::swap(a[pos - 1], a[pos - 2]);
+
+    else if (dir[a[pos - 1] - 1] == true)
+        std::swap(a[pos], a[pos - 1]);
+
+    //troca a direção dos elementos maiores que o maior elemento móvel
+    for (int i = 0; i < a.size(); i++)
+    {
+        if (a[i] > mobile)
+        {
+            if (dir[a[i] - 1] == true)
+                dir[a[i] - 1] = false;
+            else if (dir[a[i] - 1] == false)
+                dir[a[i] - 1] = true;
         }
     }
-        
+
+    print_vector(a);
+    
+}
+
+void JohnsonTrotterPermutation(int n)
+{
+    std::vector<int> a;
+    std::vector<bool> dir;
+    
+    for (int i = 0; i < n; i++){
+        a.push_back(i + 1);
+    }
+    print_vector(a);
+
+    for (int i = 0; i < n; i++) // inicializa todas as posições com falso
+        dir.push_back(false);
+
+    int fatorial = 1; // calcula o fatorial de n
+    for (int i = 1; i <= n; i++) {
+        fatorial = fatorial * i;
+    }
+ 
+    for (int i = 1; i < fatorial; i++) { // gera n! permutação
+        print_perm(a, dir);
+        //print_vector(dir);
+    }
 }
 
 
 int main()
 {
     int n = 3;
-    JohnsonTrotter_permutation(n);
+    JohnsonTrotterPermutation(n);
 
 }
-
 // Executar programa: Ctrl + F5 ou Menu Depurar > Iniciar Sem Depuração
 // Depurar programa: F5 ou menu Depurar > Iniciar Depuração
 

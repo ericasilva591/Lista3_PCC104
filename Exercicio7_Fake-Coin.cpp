@@ -12,71 +12,58 @@ void print_vector(std::vector<T>& v) {//função para imprimir um vetor
     std::cout << std::endl;
 }
 
-template <typename T>
-void fake_coin(std::vector<T> v) {
+
+int fake_coin(const std::vector<int>& v, int begin, int end) { //o const não deixa alterar o vetor v
     
-    int n = v.size();
-    if (n == 1) {
-        std::cout << "A moeda falsa eh a " << v[0] << std::endl;
+    int f_coin = -1;
+    
+    if ((end - begin) == 1){
+        return begin;
     }
     else {
-        float soma1 = 0;
-        float soma2 = 0;
-        int m = n / 2;
-        if ((n %= 2) == 0) {//se for par 
-            std::vector<T> v1, v2;
-            for (int i = 0; i < m; i++) {
-                soma1 += v[i];
-                v1.push_back(v[i]);
-            }
-            for (int j = m; j < v.size(); j++) {
-                soma2 += v[j];
-                v2.push_back(v[j]);
-            }
-            if (soma1 < soma2) {
-                fake_coin(v2);
-                
-            }
-            else if (soma1 > soma2) {
-                fake_coin(v1);
-            }
+        int tamanho_pilha = (end - begin) / 2; //tamanho das pilhas
+        int resto = (end - begin) % 2; //numero de moedas impar ou par 
+        int inicio_pilha2 = begin + tamanho_pilha;
 
+        end = (resto != 0) ? end - 1 : end;
+
+        int peso_p1 = 0; // = std::accumulate(v.begin() + begin, v.begin() + inicio_pilha2, 0);
+        for (auto i = v.begin() + begin; i != v.begin() + inicio_pilha2; i++) {
+            peso_p1 += *i;
         }
-        else { //se for impar repete uma moeda nos dois subconjuntos
-            std::vector<T> v1, v2;
-            for (int i = 0; i <= m; i++) {
-                soma1 += v[i];
-                v1.push_back(v[i]);
-            }
-            for (int j = m; j < v.size(); j++) {
-                soma2 += v[j];
-                v2.push_back(v[j]);
-            }
-            if (soma1 < soma2) {
-                fake_coin(v2);
-            }
-            else if (soma1 > soma2) {
-                fake_coin(v1);
-            }
-            else {
-                std::cout << "A moeda falsa eh a: " << v[m] << std::endl;
-                
-            }
+        int peso_p2 = 0; // = std::accumulate(v.begin() + inicio_pilha2, v.begin() end, 0);
+        for (auto i = v.begin() + inicio_pilha2; i != v.begin() + end; i++) {
+            peso_p2 += *i;
+        }
 
+        if (peso_p1 < peso_p2) {
+            f_coin = fake_coin(v, begin, inicio_pilha2);
+        }
+        else if (peso_p1 > peso_p2) {
+            f_coin = fake_coin(v, inicio_pilha2, end);
+        }
+        else {
+            f_coin = end;
+            return f_coin;
         }
     }
+
+
 }
 
 
 int main()
 {
-    std::vector<float> v = { 0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.2,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1};
-       
+    std::vector<int> v(30, 2);
+    v[9] = 1;
+    //std::cout << v.size();
+    int f_coin;
+
     std::cout << "Vetor de moedas: ";
     print_vector(v);
-       
-    fake_coin(v);
-    
+
+    f_coin = fake_coin(v, 0, v.size());
+    std::cout << "Moeda falsa esta na posicao: " << f_coin;
 }
 
 // Executar programa: Ctrl + F5 ou Menu Depurar > Iniciar Sem Depuração
